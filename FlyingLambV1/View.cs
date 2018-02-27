@@ -27,7 +27,6 @@ namespace FlyingLambV1
 
         }
 
-        
         private void View_Shown(object sender, EventArgs e)
         {
             controller.Connect();
@@ -158,12 +157,15 @@ namespace FlyingLambV1
             progressBar.Maximum = (int)controller.ShipEnergyMax;
             progressBar.Value = (int)controller.ShipEnergyLive;
 
+
+
         }
 
         //Radarschirm mitteilen, dass er sich neu zeichnen soll.
         private void RadarScreenResizedHandler(object sender, EventArgs e)
         {
             radarScreen.Refresh();
+
             
         }
 
@@ -190,15 +192,17 @@ namespace FlyingLambV1
                     break;
             }
         }
+        //TODO: ChatBox soll nicht bei Start des Spiels im focus stehen
 
+        //TODO: Spielerliste
+
+        
         //Wenn die View geschlossen wird
         private void FormClosingEventHandler(object sender, FormClosingEventArgs e)
         {
             controller.Disconnect();
-            
         }
 
-
-
+     
     }
 }

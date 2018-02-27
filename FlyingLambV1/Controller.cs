@@ -28,6 +28,9 @@ namespace FlyingLambV1
         public float ShipEnergyMax  {   get {   return ship.EnergyMax;  }   }   //  Maximale Energie des Raumschiffes
         public float ShipEnergyLive {   get {   return ship.Energy; }   }       //  Aktuelle Energie des Raumschiffes
 
+        //TODO: Daten der Spieler im Universum um später zu schreiben. 
+        //TODO: Universe Chat einbinden
+
         //Abholen einer Nachricht
         public List<FlattiverseMessage> Messages
         {

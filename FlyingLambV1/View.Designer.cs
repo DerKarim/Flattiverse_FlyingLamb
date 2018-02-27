@@ -35,6 +35,7 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.textBox_chat = new System.Windows.Forms.TextBox();
             this.button_send = new System.Windows.Forms.Button();
+            this.listBox_spielerliste = new System.Windows.Forms.ListBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -42,10 +43,10 @@
             // 
             this.textBoxMessages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxMessages.Enabled = false;
             this.textBoxMessages.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxMessages.Location = new System.Drawing.Point(12, 362);
             this.textBoxMessages.Name = "textBoxMessages";
+            this.textBoxMessages.ReadOnly = true;
             this.textBoxMessages.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
             this.textBoxMessages.Size = new System.Drawing.Size(1020, 115);
             this.textBoxMessages.TabIndex = 0;
@@ -81,11 +82,10 @@
             // 
             this.textBox_chat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_chat.Enabled = false;
             this.textBox_chat.Location = new System.Drawing.Point(13, 483);
             this.textBox_chat.Name = "textBox_chat";
             this.textBox_chat.Size = new System.Drawing.Size(1019, 20);
-            this.textBox_chat.TabIndex = 3;
+            this.textBox_chat.TabIndex = 0;
             // 
             // button_send
             // 
@@ -97,11 +97,24 @@
             this.button_send.Text = "Senden";
             this.button_send.UseVisualStyleBackColor = true;
             // 
+            // listBox_spielerliste
+            // 
+            this.listBox_spielerliste.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.listBox_spielerliste.FormattingEnabled = true;
+            this.listBox_spielerliste.Items.AddRange(new object[] {
+            "Eintrag1",
+            "Eintrag2"});
+            this.listBox_spielerliste.Location = new System.Drawing.Point(1038, 362);
+            this.listBox_spielerliste.Name = "listBox_spielerliste";
+            this.listBox_spielerliste.Size = new System.Drawing.Size(103, 108);
+            this.listBox_spielerliste.TabIndex = 0;
+            // 
             // View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1153, 515);
+            this.Controls.Add(this.listBox_spielerliste);
             this.Controls.Add(this.button_send);
             this.Controls.Add(this.textBox_chat);
             this.Controls.Add(this.progressBar);
@@ -126,6 +139,7 @@
         public System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.TextBox textBox_chat;
         private System.Windows.Forms.Button button_send;
+        private System.Windows.Forms.ListBox listBox_spielerliste;
     }
 }
 
