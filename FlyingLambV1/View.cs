@@ -217,6 +217,8 @@ namespace FlyingLambV1
         {
             //radarScreen
            // float radius = radarScreen.Height > radarScreen.Width ? radarScreen.Width / 2 : radarScreen.Height / 2; // if(...) ? { .. } : else {..}
+
+
         }
 
         private void KeyDownEventHandler(object sender, KeyEventArgs e)

@@ -40,7 +40,7 @@
             // 
             this.textBoxMessages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxMessages.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxMessages.Location = new System.Drawing.Point(724, 200);
+            this.textBoxMessages.Location = new System.Drawing.Point(726, 201);
             this.textBoxMessages.Name = "textBoxMessages";
             this.textBoxMessages.Size = new System.Drawing.Size(252, 290);
             this.textBoxMessages.TabIndex = 0;
@@ -50,6 +50,10 @@
             // 
             // radarScreen
             // 
+            this.radarScreen.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.radarScreen.AutoSize = true;
             this.radarScreen.BackColor = System.Drawing.Color.Black;
             this.radarScreen.Location = new System.Drawing.Point(12, 12);
             this.radarScreen.Name = "radarScreen";
@@ -59,7 +63,8 @@
             // 
             // progressBar
             // 
-            this.progressBar.Location = new System.Drawing.Point(725, 171);
+            this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.progressBar.Location = new System.Drawing.Point(727, 172);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(251, 23);
             this.progressBar.TabIndex = 2;
@@ -73,7 +78,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(988, 502);
+            this.ClientSize = new System.Drawing.Size(990, 503);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.radarScreen);
             this.Controls.Add(this.textBoxMessages);
@@ -85,6 +90,7 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyDownEventHandler);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 

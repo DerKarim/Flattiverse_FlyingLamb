@@ -17,7 +17,6 @@ namespace FlyingLambV1
         UniverseGroup universeGroup;
         Ship ship;
         Boolean running;
-        View view;
 
 
         int xImpulse, yImpulse, direction; //Antrieb
