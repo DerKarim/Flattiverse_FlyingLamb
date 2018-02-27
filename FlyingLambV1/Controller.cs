@@ -153,6 +153,7 @@ namespace FlyingLambV1
                 Scan();
                 Move(); //Antrieb [K]
                 
+                
                 flowControl.Commit();
                 flowControl.Wait();
 
