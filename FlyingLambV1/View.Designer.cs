@@ -33,7 +33,7 @@
             this.radarScreen = new System.Windows.Forms.Panel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox_chat = new System.Windows.Forms.TextBox();
             this.button_send = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
@@ -52,7 +52,6 @@
             this.textBoxMessages.TabStop = false;
             this.textBoxMessages.Text = "";
             this.textBoxMessages.WordWrap = false;
-            this.textBoxMessages.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // radarScreen
             // 
@@ -65,7 +64,6 @@
             this.radarScreen.Name = "radarScreen";
             this.radarScreen.Size = new System.Drawing.Size(795, 344);
             this.radarScreen.TabIndex = 1;
-            this.radarScreen.Paint += new System.Windows.Forms.PaintEventHandler(this.radarScreen_Paint);
             // 
             // progressBar
             // 
@@ -74,21 +72,20 @@
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(328, 23);
             this.progressBar.TabIndex = 2;
-            this.progressBar.Click += new System.EventHandler(this.progressBarEventHandler);
             // 
             // errorProvider1
             // 
             this.errorProvider1.ContainerControl = this;
             // 
-            // textBox1
+            // textBox_chat
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBox_chat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(13, 483);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(1019, 20);
-            this.textBox1.TabIndex = 3;
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox_chat.Enabled = false;
+            this.textBox_chat.Location = new System.Drawing.Point(13, 483);
+            this.textBox_chat.Name = "textBox_chat";
+            this.textBox_chat.Size = new System.Drawing.Size(1019, 20);
+            this.textBox_chat.TabIndex = 3;
             // 
             // button_send
             // 
@@ -106,7 +103,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1153, 515);
             this.Controls.Add(this.button_send);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBox_chat);
             this.Controls.Add(this.progressBar);
             this.Controls.Add(this.radarScreen);
             this.Controls.Add(this.textBoxMessages);
@@ -114,7 +111,6 @@
             this.Name = "View";
             this.Text = "Fyling Lamb (V1)";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormClosingEventHandler);
-            this.Load += new System.EventHandler(this.View_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.KeyDownEventHandler);
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
@@ -128,7 +124,7 @@
         private System.Windows.Forms.Panel radarScreen;
         private System.Windows.Forms.ErrorProvider errorProvider1;
         public System.Windows.Forms.ProgressBar progressBar;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox_chat;
         private System.Windows.Forms.Button button_send;
     }
 }

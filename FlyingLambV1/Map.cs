@@ -11,37 +11,11 @@ namespace FlyingLambV1
     class Map
     {
 
-        
-       
         Dictionary<string, Unit> mapUnits = new Dictionary<string, Unit>();
-        List<string> deletedUnits = new List<string>(); //[K]
         ReaderWriterLock listLock = new ReaderWriterLock();
         public int tick;
-        
-     
 
-        public void Insert(List<Unit> units)
-        {
-          
-            listLock.AcquireWriterLock(100);
-
-           
-
-
-            foreach (Unit u in units)
-            {
-
-                mapUnits[u.Name] = u;
-                
-                
-
-            }
-
-
-            
-            listLock.ReleaseWriterLock();
-        }
-
+        /*/////  P R O P E R T Y S  /////*/
         public List<Unit> Units
         {
             get
@@ -53,6 +27,19 @@ namespace FlyingLambV1
             }
         }
 
+        //Insert ins Directory
+        public void Insert(List<Unit> units)
+        {
+            listLock.AcquireWriterLock(100);
+
+            foreach (Unit u in units)
+            {
+                mapUnits[u.Name] = u;
+            }
+            listLock.ReleaseWriterLock();
+        }
+        
+        //Löschen von veralteten Units
         internal void RemoveOutdatedUnits()
         {
             List<string> toDelete = new List<string>();

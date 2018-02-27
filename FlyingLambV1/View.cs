@@ -17,7 +17,7 @@ namespace FlyingLambV1
         List<Corona> coronas = new List<Corona>(); //[K]
         List<Unit> units = new List<Unit>();
        
-
+        //Konstruktor
         public View(Controller controller)
         {
             this.controller = controller;
@@ -27,6 +27,7 @@ namespace FlyingLambV1
 
         }
 
+        
         private void View_Shown(object sender, EventArgs e)
         {
             controller.Connect();
@@ -67,12 +68,12 @@ namespace FlyingLambV1
                 textBoxMessages.Lines = lines.ToArray();
             }
 
-            textBoxMessages.SelectionStart = textBoxMessages.Text.Length; // TODO: Fehler
+            textBoxMessages.SelectionStart = textBoxMessages.Text.Length; // TODO: Debugger Fehler
             textBoxMessages.ScrollToCaret();
             textBoxMessages.Refresh();
         }
 
-        //Paint Ereignisse
+        //Paint Ereignisse 
         private void RadarScreenPaintEventHandler(object sender, PaintEventArgs e)
         {
             if (!controller.ShipReady)
@@ -84,22 +85,20 @@ namespace FlyingLambV1
             // i.e. minimum screenPixels corresponds to 2000 flattiverse miles
             float displayFactor = radarScreenMinDimension / 2000f;
 
+            //Mittelpunkt radarScreen
             float centerX = radarScreen.Width / 2;
             float centerY = radarScreen.Height / 2;
-
-
 
             float shipRadius = controller.ShipRadius * displayFactor;
 
             //Raunschiff einzeichnen
             Graphics g = e.Graphics;
-            g.DrawEllipse(Pens.White,
-                centerX - shipRadius, centerY - shipRadius,
-                shipRadius * 2, shipRadius * 2);
+            g.DrawEllipse(Pens.White,   centerX - shipRadius, centerY - shipRadius, shipRadius * 2, shipRadius * 2);
 
             //Gescannte Objekte einzeichnen
             foreach (Unit u in units)
             {
+                //Position des Units bestimmen
                 float uX = centerX + u.Position.X * displayFactor;
                 float uY = centerY + u.Position.Y * displayFactor;
                 float uR = u.Radius * displayFactor;
@@ -114,8 +113,7 @@ namespace FlyingLambV1
 
                 g.DrawString(uName,defaultFont,brush,point);
 
-                //Unterschiedliche Farben je nach UnitTyp [K]
-                
+                //Unterschiedliche Farben je nach UnitTyp 
                 switch (u.Kind)
                 {
                     case UnitKind.Sun:
@@ -124,14 +122,9 @@ namespace FlyingLambV1
                             
                             foreach(Corona corona in ((Sun)u).Coronas)
                             {
-
-
                                 g.DrawEllipse(Pens.YellowGreen, uX - corona.Radius * displayFactor , uY - corona.Radius * displayFactor, corona.Radius*2*displayFactor,corona.Radius*2*displayFactor );
                             }
-
-
                             break;
-                            
                         }
 
                     case UnitKind.Planet:
@@ -151,25 +144,15 @@ namespace FlyingLambV1
                             g.DrawEllipse(Pens.Red, uX - uR, uY - uR, uR * 2, uR * 2);
                             break;
                         }
-
-                  
-
+                    //Alle anderen Units die nicht definiert worden sind.
                     default:
                         {
                             g.DrawEllipse(Pens.HotPink, uX - uR, uY - uR, uR * 2, uR * 2);
                             break;
                         }
                 }
-
-                  
-
-
             }
             
-           
-            
-
-
             //ProgressBar
             progressBar.Minimum = 0;
             progressBar.Maximum = (int)controller.ShipEnergyMax;
@@ -184,43 +167,7 @@ namespace FlyingLambV1
             
         }
 
-
-
-        private void View_FormClosing(object sender, FormClosingEventArgs e)
-        {
-
-        }
-
-        private void FormClosingEventHandler(object sender, FormClosingEventArgs e)
-        {
-            controller.Disconnect();
-        }
-
-
-
-
-        private void View_Load(object sender, EventArgs e)
-        {
-
-
-
-
-
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-            //textBoxMessages
-        }
-
-        private void radarScreen_Paint(object sender, PaintEventArgs e)
-        {
-            //radarScreen
-           // float radius = radarScreen.Height > radarScreen.Width ? radarScreen.Width / 2 : radarScreen.Height / 2; // if(...) ? { .. } : else {..}
-
-
-        }
-
+        //EventHander für den Tastendruck
         private void KeyDownEventHandler(object sender, KeyEventArgs e)
         {
            
@@ -238,21 +185,20 @@ namespace FlyingLambV1
                 case Keys.D:
                     controller.Impulse(1, 0);
                     break;
+                case Keys.Escape:
+                    controller.Disconnect();
+                    break;
             }
         }
 
-        private void progressBarEventHandler(object sender, EventArgs e)
+        //Wenn die View geschlossen wird
+        private void FormClosingEventHandler(object sender, FormClosingEventArgs e)
         {
-
-            progressBar.Minimum = 0;
-            progressBar.Maximum = (int)controller.ShipEnergyMax;
-            progressBar.Value = (int)controller.ShipEnergyLive;
-
+            controller.Disconnect();
+            
         }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
 
-        }
+
     }
 }

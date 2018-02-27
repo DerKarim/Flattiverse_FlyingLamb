@@ -14,10 +14,6 @@ namespace FlyingLambV1
        public Tag(long scannedAt)
         {
             this.ScannedAt = scannedAt;
-
         }
-
-
-
     }
 }
