@@ -82,7 +82,7 @@ namespace FlyingLambV1
 
             universeGroup.Join("Karim", team);
 
-            ship = universeGroup.RegisterShip("FlyingLamb", "NadiaIstEinOpfer");
+            ship = universeGroup.RegisterShip("FlyingLamb", "Flying Lamb");
 
             Thread thread = new Thread(Run);
             thread.Name = "MainLoop";
