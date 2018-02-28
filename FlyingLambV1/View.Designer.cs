@@ -115,6 +115,7 @@
             // 
             // comboBox_playerlist
             // 
+            this.comboBox_playerlist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox_playerlist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_playerlist.FormattingEnabled = true;
             this.comboBox_playerlist.Location = new System.Drawing.Point(1013, 324);

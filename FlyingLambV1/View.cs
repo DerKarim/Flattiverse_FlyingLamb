@@ -114,9 +114,12 @@ namespace FlyingLambV1
 
                 SizeF size = g.MeasureString(uName, SystemFonts.DefaultFont);
                 SolidBrush brush = new SolidBrush(Color.White);
-                PointF point = new PointF(uX, uY);
+                PointF point = new PointF(uX-uR, uY-uR);
 
-                g.DrawString(uName, defaultFont, brush, point);
+                if(size.Width < uR*2)
+                    g.DrawString(uName, defaultFont, brush, uX-size.Width/2,uY-size.Height/2);
+                else
+                    g.DrawString(uName, defaultFont, brush, point);
 
                 //Unterschiedliche Farben je nach UnitTyp 
                 switch (u.Kind)
@@ -165,9 +168,6 @@ namespace FlyingLambV1
 
             //ProgressBar Textanzeige
             label_liveEnergy.Text = String.Format("Energy: {0}/{1}", controller.ShipEnergyLive.ToString(), controller.ShipEnergyMax.ToString());
-
-            
-
 
 
         }
@@ -251,25 +251,14 @@ namespace FlyingLambV1
                     }
 
                     textBox_chat.Clear();
-
-
                     break;
             }
         }
 
-
-        //Wenn die View geschlossen wird
-        private void FormClosingEventHandler(object sender, FormClosingEventArgs e)
-        {
-            controller.Disconnect();
-        }
-
+        //Updatet Playerliste beim Klick
         private void comboBox_playerlist_Click(object sender, EventArgs e)
         {
             comboBox_playerlist.Items.Clear();
-
-
-
             comboBox_playerlist.Items.Add("Universe");
             comboBox_playerlist.Items.Add("Team");
             comboBox_playerlist.Items.Add("-------------");
@@ -278,6 +267,12 @@ namespace FlyingLambV1
             {
                 comboBox_playerlist.Items.Add(p.Name.ToString());
             }
+        }
+
+        //Wenn die View geschlossen wird
+        private void FormClosingEventHandler(object sender, FormClosingEventArgs e)
+        {
+            controller.Disconnect();
         }
     }
 }

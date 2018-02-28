@@ -15,7 +15,7 @@ namespace FlyingLambV1
     {
         Connector connector;
         UniverseGroup universeGroup;
-        Player player;
+        
         Ship ship;
         Boolean running;
         Map map = new Map();
@@ -29,7 +29,7 @@ namespace FlyingLambV1
         public float ShipEnergyMax { get { return ship.EnergyMax; } }   //  Maximale Energie des Raumschiffes
         public float ShipEnergyLive { get { return ship.Energy; } }       //  Aktuelle Energie des Raumschiffes
         public UniverseGroup univerGroupType { get { return universeGroup; } }
-        public Player playerType { get {  return player; } }
+       
         //Aktuelle Spieler im Universum ohne eigenen Spieler
         public List<Player> PlayerInUniverse
         {
@@ -96,7 +96,7 @@ namespace FlyingLambV1
 
             universeGroup.Join("Karim", team);
 
-            ship = universeGroup.RegisterShip("FlyingLamb", "Flying Lamb");
+            ship = universeGroup.RegisterShip("Flixbus", "Flixbus");
 
             Thread thread = new Thread(Run);
             thread.Name = "MainLoop";
@@ -145,9 +145,7 @@ namespace FlyingLambV1
             float scanAngle = 0;    //Scan soll bei 0 anfangen
             scanAngle += ship.ScannerDegreePerScan; //Addiert den möglichen Scanbereich hinzu um den gesamten kreis abzudecken 
 
-            ship.Scan(scanAngle, 300); //Todo: 300 durch Maximalwert des Scans ersetzen.
-
-            List<Unit> scannedUnits = ship.Scan(scanAngle, 300); //vllt. ship.ScannerArea.Limit
+            List<Unit> scannedUnits = ship.Scan(scanAngle, ship.ScannerArea.Limit); 
             map.tick++;
 
             foreach (Unit u in scannedUnits)
@@ -212,22 +210,18 @@ namespace FlyingLambV1
             yImpulse = 0;
         }
 
-        //TODO: Universe Chat einbinden
+        //Universe Chat einbinden
         public void UniverseChat(String message)
         {
             universeGroup.Chat(message);
         }
 
-        //TODO: Player Chat einbinden
+        //Player Chat einbinden
         public void PlayerChat(String player,String message)
         {
             universeGroup.Players[player].Chat(message);
            
         }
-
-        
-
-
 
         public void Disconnect()
         {
