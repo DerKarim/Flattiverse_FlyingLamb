@@ -160,11 +160,6 @@ namespace FlyingLambV1
             {
                 NewScanEvent();
             }
-
-            //if (NewMessageEvent != null)
-            //{
-            //    NewMessageEvent();
-            //}
         }
         //Antrieb
         public void Impulse(int x, int y)
