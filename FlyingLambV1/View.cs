@@ -16,7 +16,8 @@ namespace FlyingLambV1
         Controller controller;
         List<Corona> coronas = new List<Corona>(); //[K]
         List<Unit> units = new List<Unit>();
-       
+      
+
         //Konstruktor
         public View(Controller controller)
         {
@@ -64,29 +65,14 @@ namespace FlyingLambV1
             {
                 List<FlattiverseMessage> messages = controller.Messages;
                 List<string> lines = new List<string>();
+
+
                 foreach (FlattiverseMessage message in messages) {
-                    if (message is PlayerJoinedUniverseGroupMessage || message is PlayerDroppedFromUniverseGroupMessage)
-                    {
-                        comboBox_playerlist.Items.Clear();
-                        comboBox_playerlist.Items.Add("Universe");
-                        comboBox_playerlist.Items.Add("Team");
-                        comboBox_playerlist.Items.Add("-------------");
-
-                        foreach(Player p in controller.PlayerInUniverse)
-                        {
-                            comboBox_playerlist.Items.Add(p.Name.ToString());
-                        }
-
-                    }
-
-
-
                     lines.Add(message.ToString());
                 }
                 textBoxMessages.Lines = lines.ToArray();
                 textBoxMessages.SelectionStart = textBoxMessages.Text.Length;
                 textBoxMessages.ScrollToCaret();
-                
             }
 
 
@@ -278,6 +264,20 @@ namespace FlyingLambV1
             controller.Disconnect();
         }
 
-        
+        private void comboBox_playerlist_Click(object sender, EventArgs e)
+        {
+            comboBox_playerlist.Items.Clear();
+
+
+
+            comboBox_playerlist.Items.Add("Universe");
+            comboBox_playerlist.Items.Add("Team");
+            comboBox_playerlist.Items.Add("-------------");
+
+            foreach (Player p in controller.PlayerInUniverse)
+            {
+                comboBox_playerlist.Items.Add(p.Name.ToString());
+            }
+        }
     }
 }

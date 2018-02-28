@@ -121,6 +121,7 @@
             this.comboBox_playerlist.Name = "comboBox_playerlist";
             this.comboBox_playerlist.Size = new System.Drawing.Size(128, 21);
             this.comboBox_playerlist.TabIndex = 6;
+            this.comboBox_playerlist.Click += new System.EventHandler(this.comboBox_playerlist_Click);
             // 
             // View
             // 
