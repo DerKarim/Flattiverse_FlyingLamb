@@ -84,9 +84,9 @@ namespace FlyingLambV1
                     lines.Add(message.ToString());
                 }
                 textBoxMessages.Lines = lines.ToArray();
-                textBoxMessages.SelectionStart = textBoxMessages.Text.Length; // TODO: Debugger Fehler
+                textBoxMessages.SelectionStart = textBoxMessages.Text.Length;
                 textBoxMessages.ScrollToCaret();
-                // textBoxMessages.Refresh();
+                
             }
 
 
@@ -222,9 +222,54 @@ namespace FlyingLambV1
             }
         }
 
-        //PlayerList
-        
+        //Text absenden (chat)
+        private void button_send_Click(object sender, EventArgs e)
+        {
+            
+            String message = textBox_chat.Text;
 
+            if((string)comboBox_playerlist.SelectedItem == "Universe" )
+            {
+                controller.UniverseChat(message);
+            } else if (comboBox_playerlist.SelectedItem.ToString() == "Team")
+            {
+                
+            } else if (comboBox_playerlist.SelectedItem.ToString() != "-------------")
+            {
+                controller.PlayerChat(comboBox_playerlist.SelectedItem.ToString(), message);
+            }
+
+            textBox_chat.Clear();
+
+        }
+        //Chat soll auch bei enter abgeschickt werden.
+        private void textBox_chat_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            switch (e.KeyChar)
+            {
+                case (char)Keys.Enter:
+
+                    String message = textBox_chat.Text;
+
+                    if ((string)comboBox_playerlist.SelectedItem == "Universe")
+                    {
+                        controller.UniverseChat(message);
+                    }
+                    else if (comboBox_playerlist.SelectedItem.ToString() == "Team")
+                    {
+
+                    }
+                    else if (comboBox_playerlist.SelectedItem.ToString() != "-------------")
+                    {
+                        controller.PlayerChat(comboBox_playerlist.SelectedItem.ToString(), message);
+                    }
+
+                    textBox_chat.Clear();
+
+
+                    break;
+            }
+        }
 
 
         //Wenn die View geschlossen wird

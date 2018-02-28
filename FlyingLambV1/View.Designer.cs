@@ -88,6 +88,7 @@
             this.textBox_chat.Name = "textBox_chat";
             this.textBox_chat.Size = new System.Drawing.Size(969, 20);
             this.textBox_chat.TabIndex = 0;
+            this.textBox_chat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_chat_KeyPress);
             // 
             // button_send
             // 
@@ -98,6 +99,7 @@
             this.button_send.TabIndex = 4;
             this.button_send.Text = "Senden";
             this.button_send.UseVisualStyleBackColor = true;
+            this.button_send.Click += new System.EventHandler(this.button_send_Click);
             // 
             // label_liveEnergy
             // 

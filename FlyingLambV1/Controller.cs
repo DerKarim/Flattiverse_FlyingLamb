@@ -15,6 +15,7 @@ namespace FlyingLambV1
     {
         Connector connector;
         UniverseGroup universeGroup;
+        Player player;
         Ship ship;
         Boolean running;
         Map map = new Map();
@@ -27,6 +28,8 @@ namespace FlyingLambV1
         public float ShipRadius { get { return ship.Radius; } }         //  Radius des Raumschiffes
         public float ShipEnergyMax { get { return ship.EnergyMax; } }   //  Maximale Energie des Raumschiffes
         public float ShipEnergyLive { get { return ship.Energy; } }       //  Aktuelle Energie des Raumschiffes
+        public UniverseGroup univerGroupType { get { return universeGroup; } }
+        public Player playerType { get {  return player; } }
         //Aktuelle Spieler im Universum ohne eigenen Spieler
         public List<Player> PlayerInUniverse
         {
@@ -216,9 +219,10 @@ namespace FlyingLambV1
         }
 
         //TODO: Player Chat einbinden
-        public void PlayerChat(Player player,String message)
+        public void PlayerChat(String player,String message)
         {
-            player.Chat(message);
+            universeGroup.Players[player].Chat(message);
+           
         }
 
         
