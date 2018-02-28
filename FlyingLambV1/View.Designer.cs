@@ -45,11 +45,11 @@
             this.textBoxMessages.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBoxMessages.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxMessages.Location = new System.Drawing.Point(12, 362);
+            this.textBoxMessages.Location = new System.Drawing.Point(12, 446);
             this.textBoxMessages.Name = "textBoxMessages";
             this.textBoxMessages.ReadOnly = true;
             this.textBoxMessages.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.textBoxMessages.Size = new System.Drawing.Size(970, 115);
+            this.textBoxMessages.Size = new System.Drawing.Size(1226, 115);
             this.textBoxMessages.TabIndex = 0;
             this.textBoxMessages.TabStop = false;
             this.textBoxMessages.Text = "";
@@ -64,14 +64,14 @@
             this.radarScreen.BackColor = System.Drawing.Color.Black;
             this.radarScreen.Location = new System.Drawing.Point(12, 12);
             this.radarScreen.Name = "radarScreen";
-            this.radarScreen.Size = new System.Drawing.Size(795, 344);
+            this.radarScreen.Size = new System.Drawing.Size(1051, 428);
             this.radarScreen.TabIndex = 1;
             this.radarScreen.Click += new System.EventHandler(this.radarScreen_Click);
             // 
             // progressBar
             // 
             this.progressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.progressBar.Location = new System.Drawing.Point(813, 12);
+            this.progressBar.Location = new System.Drawing.Point(1069, 12);
             this.progressBar.Name = "progressBar";
             this.progressBar.Size = new System.Drawing.Size(328, 23);
             this.progressBar.TabIndex = 2;
@@ -84,16 +84,16 @@
             // 
             this.textBox_chat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox_chat.Location = new System.Drawing.Point(13, 483);
+            this.textBox_chat.Location = new System.Drawing.Point(13, 567);
             this.textBox_chat.Name = "textBox_chat";
-            this.textBox_chat.Size = new System.Drawing.Size(969, 20);
+            this.textBox_chat.Size = new System.Drawing.Size(1225, 20);
             this.textBox_chat.TabIndex = 0;
             this.textBox_chat.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox_chat_KeyPress);
             // 
             // button_send
             // 
             this.button_send.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_send.Location = new System.Drawing.Point(1037, 481);
+            this.button_send.Location = new System.Drawing.Point(1293, 565);
             this.button_send.Name = "button_send";
             this.button_send.Size = new System.Drawing.Size(75, 23);
             this.button_send.TabIndex = 4;
@@ -106,7 +106,7 @@
             this.label_liveEnergy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.label_liveEnergy.AutoSize = true;
             this.label_liveEnergy.BackColor = System.Drawing.Color.Transparent;
-            this.label_liveEnergy.Location = new System.Drawing.Point(903, 17);
+            this.label_liveEnergy.Location = new System.Drawing.Point(1159, 17);
             this.label_liveEnergy.Name = "label_liveEnergy";
             this.label_liveEnergy.Size = new System.Drawing.Size(154, 13);
             this.label_liveEnergy.TabIndex = 5;
@@ -118,7 +118,7 @@
             this.comboBox_playerlist.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.comboBox_playerlist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox_playerlist.FormattingEnabled = true;
-            this.comboBox_playerlist.Location = new System.Drawing.Point(1013, 324);
+            this.comboBox_playerlist.Location = new System.Drawing.Point(1269, 408);
             this.comboBox_playerlist.Name = "comboBox_playerlist";
             this.comboBox_playerlist.Size = new System.Drawing.Size(128, 21);
             this.comboBox_playerlist.TabIndex = 6;
@@ -128,7 +128,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1153, 515);
+            this.ClientSize = new System.Drawing.Size(1409, 599);
             this.Controls.Add(this.comboBox_playerlist);
             this.Controls.Add(this.label_liveEnergy);
             this.Controls.Add(this.button_send);
