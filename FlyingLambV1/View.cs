@@ -33,8 +33,10 @@ namespace FlyingLambV1
             //controller.ListUniverses();
             controller.Enter("Time Master", "None");
             controller.NewMessageEvent += NewMessage;
-
+            radarScreen.Focus(); //Stellt den Focus am anfang
+            //Funktionen die direkt am Anfang starten sollen
             radarScreen.Paint += RadarScreenPaintEventHandler;
+           
             controller.NewScanEvent += NewScan;
         }
 
@@ -62,14 +64,32 @@ namespace FlyingLambV1
             {
                 List<FlattiverseMessage> messages = controller.Messages;
                 List<string> lines = new List<string>();
-                foreach (FlattiverseMessage message in messages)
+                foreach (FlattiverseMessage message in messages) {
+                    if (message is PlayerJoinedUniverseGroupMessage || message is PlayerDroppedFromUniverseGroupMessage)
+                    {
+                        comboBox_playerlist.Items.Clear();
+                        comboBox_playerlist.Items.Add("Universe");
+                        comboBox_playerlist.Items.Add("Team");
+                        comboBox_playerlist.Items.Add("-------------");
+
+                        foreach(Player p in controller.PlayerInUniverse)
+                        {
+                            comboBox_playerlist.Items.Add(p.Name.ToString());
+                        }
+
+                    }
+
+
+
                     lines.Add(message.ToString());
+                }
                 textBoxMessages.Lines = lines.ToArray();
+                textBoxMessages.SelectionStart = textBoxMessages.Text.Length; // TODO: Debugger Fehler
+                textBoxMessages.ScrollToCaret();
+                // textBoxMessages.Refresh();
             }
 
-            textBoxMessages.SelectionStart = textBoxMessages.Text.Length; // TODO: Debugger Fehler
-            textBoxMessages.ScrollToCaret();
-            textBoxMessages.Refresh();
+
         }
 
         //Paint Ereignisse 
@@ -92,7 +112,7 @@ namespace FlyingLambV1
 
             //Raunschiff einzeichnen
             Graphics g = e.Graphics;
-            g.DrawEllipse(Pens.White,   centerX - shipRadius, centerY - shipRadius, shipRadius * 2, shipRadius * 2);
+            g.DrawEllipse(Pens.White, centerX - shipRadius, centerY - shipRadius, shipRadius * 2, shipRadius * 2);
 
             //Gescannte Objekte einzeichnen
             foreach (Unit u in units)
@@ -110,7 +130,7 @@ namespace FlyingLambV1
                 SolidBrush brush = new SolidBrush(Color.White);
                 PointF point = new PointF(uX, uY);
 
-                g.DrawString(uName,defaultFont,brush,point);
+                g.DrawString(uName, defaultFont, brush, point);
 
                 //Unterschiedliche Farben je nach UnitTyp 
                 switch (u.Kind)
@@ -118,10 +138,10 @@ namespace FlyingLambV1
                     case UnitKind.Sun:
                         {
                             g.DrawEllipse(Pens.DarkOrange, uX - uR, uY - uR, uR * 2, uR * 2);
-                            
-                            foreach(Corona corona in ((Sun)u).Coronas)
+
+                            foreach (Corona corona in ((Sun)u).Coronas)
                             {
-                                g.DrawEllipse(Pens.YellowGreen, uX - corona.Radius * displayFactor , uY - corona.Radius * displayFactor, corona.Radius*2*displayFactor,corona.Radius*2*displayFactor );
+                                g.DrawEllipse(Pens.YellowGreen, uX - corona.Radius * displayFactor, uY - corona.Radius * displayFactor, corona.Radius * 2 * displayFactor, corona.Radius * 2 * displayFactor);
                             }
                             break;
                         }
@@ -151,22 +171,31 @@ namespace FlyingLambV1
                         }
                 }
             }
-            
+
             //ProgressBar
             progressBar.Minimum = 0;
             progressBar.Maximum = (int)controller.ShipEnergyMax;
             progressBar.Value = (int)controller.ShipEnergyLive;
 
+            //ProgressBar Textanzeige
+            label_liveEnergy.Text = String.Format("Energy: {0}/{1}", controller.ShipEnergyLive.ToString(), controller.ShipEnergyMax.ToString());
+
+            
+
 
 
         }
-
         //Radarschirm mitteilen, dass er sich neu zeichnen soll.
         private void RadarScreenResizedHandler(object sender, EventArgs e)
         {
             radarScreen.Refresh();
 
             
+        }
+        //RadarScreen fokusieren bei klick
+        private void radarScreen_Click(object sender, EventArgs e)
+        {
+            radarScreen.Focus();
         }
 
         //EventHander für den Tastendruck
@@ -192,17 +221,18 @@ namespace FlyingLambV1
                     break;
             }
         }
-        //TODO: ChatBox soll nicht bei Start des Spiels im focus stehen
 
-        //TODO: Spielerliste
-
+        //PlayerList
         
+
+
+
         //Wenn die View geschlossen wird
         private void FormClosingEventHandler(object sender, FormClosingEventArgs e)
         {
             controller.Disconnect();
         }
 
-     
+        
     }
 }

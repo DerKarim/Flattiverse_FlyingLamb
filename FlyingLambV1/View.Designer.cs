@@ -35,7 +35,8 @@
             this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             this.textBox_chat = new System.Windows.Forms.TextBox();
             this.button_send = new System.Windows.Forms.Button();
-            this.listBox_spielerliste = new System.Windows.Forms.ListBox();
+            this.label_liveEnergy = new System.Windows.Forms.Label();
+            this.comboBox_playerlist = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -48,7 +49,7 @@
             this.textBoxMessages.Name = "textBoxMessages";
             this.textBoxMessages.ReadOnly = true;
             this.textBoxMessages.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
-            this.textBoxMessages.Size = new System.Drawing.Size(1020, 115);
+            this.textBoxMessages.Size = new System.Drawing.Size(970, 115);
             this.textBoxMessages.TabIndex = 0;
             this.textBoxMessages.TabStop = false;
             this.textBoxMessages.Text = "";
@@ -65,6 +66,7 @@
             this.radarScreen.Name = "radarScreen";
             this.radarScreen.Size = new System.Drawing.Size(795, 344);
             this.radarScreen.TabIndex = 1;
+            this.radarScreen.Click += new System.EventHandler(this.radarScreen_Click);
             // 
             // progressBar
             // 
@@ -84,37 +86,47 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_chat.Location = new System.Drawing.Point(13, 483);
             this.textBox_chat.Name = "textBox_chat";
-            this.textBox_chat.Size = new System.Drawing.Size(1019, 20);
+            this.textBox_chat.Size = new System.Drawing.Size(969, 20);
             this.textBox_chat.TabIndex = 0;
             // 
             // button_send
             // 
             this.button_send.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button_send.Location = new System.Drawing.Point(1054, 483);
+            this.button_send.Location = new System.Drawing.Point(1037, 481);
             this.button_send.Name = "button_send";
             this.button_send.Size = new System.Drawing.Size(75, 23);
             this.button_send.TabIndex = 4;
             this.button_send.Text = "Senden";
             this.button_send.UseVisualStyleBackColor = true;
             // 
-            // listBox_spielerliste
+            // label_liveEnergy
             // 
-            this.listBox_spielerliste.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox_spielerliste.FormattingEnabled = true;
-            this.listBox_spielerliste.Items.AddRange(new object[] {
-            "Eintrag1",
-            "Eintrag2"});
-            this.listBox_spielerliste.Location = new System.Drawing.Point(1038, 362);
-            this.listBox_spielerliste.Name = "listBox_spielerliste";
-            this.listBox_spielerliste.Size = new System.Drawing.Size(103, 108);
-            this.listBox_spielerliste.TabIndex = 0;
+            this.label_liveEnergy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_liveEnergy.AutoSize = true;
+            this.label_liveEnergy.BackColor = System.Drawing.Color.Transparent;
+            this.label_liveEnergy.Location = new System.Drawing.Point(903, 17);
+            this.label_liveEnergy.Name = "label_liveEnergy";
+            this.label_liveEnergy.Size = new System.Drawing.Size(154, 13);
+            this.label_liveEnergy.TabIndex = 5;
+            this.label_liveEnergy.Text = "[AktuelleEnergie]/[MaxEnergie]";
+            this.label_liveEnergy.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // comboBox_playerlist
+            // 
+            this.comboBox_playerlist.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox_playerlist.FormattingEnabled = true;
+            this.comboBox_playerlist.Location = new System.Drawing.Point(1013, 324);
+            this.comboBox_playerlist.Name = "comboBox_playerlist";
+            this.comboBox_playerlist.Size = new System.Drawing.Size(128, 21);
+            this.comboBox_playerlist.TabIndex = 6;
             // 
             // View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1153, 515);
-            this.Controls.Add(this.listBox_spielerliste);
+            this.Controls.Add(this.comboBox_playerlist);
+            this.Controls.Add(this.label_liveEnergy);
             this.Controls.Add(this.button_send);
             this.Controls.Add(this.textBox_chat);
             this.Controls.Add(this.progressBar);
@@ -139,7 +151,8 @@
         public System.Windows.Forms.ProgressBar progressBar;
         private System.Windows.Forms.TextBox textBox_chat;
         private System.Windows.Forms.Button button_send;
-        private System.Windows.Forms.ListBox listBox_spielerliste;
+        private System.Windows.Forms.Label label_liveEnergy;
+        private System.Windows.Forms.ComboBox comboBox_playerlist;
     }
 }
 

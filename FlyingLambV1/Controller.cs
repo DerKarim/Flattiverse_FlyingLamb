@@ -22,14 +22,22 @@ namespace FlyingLambV1
         int xImpulse, yImpulse, direction; //Antrieb
 
         /*/////  P R O P E R T Y S  /////*/
-        public Boolean ShipReady    {   get {   return (ship != null); }  }     //  True sobald das Raumschiff erreichbar ist
-        public List<Unit> Units     {   get {   return map.Units;   }   }       //  Liste der (gescannten?) Units aus dem Directory der Klasse Map
-        public float ShipRadius     {   get {   return ship.Radius; } }         //  Radius des Raumschiffes
-        public float ShipEnergyMax  {   get {   return ship.EnergyMax;  }   }   //  Maximale Energie des Raumschiffes
-        public float ShipEnergyLive {   get {   return ship.Energy; }   }       //  Aktuelle Energie des Raumschiffes
+        public Boolean ShipReady { get { return (ship != null); } }     //  True sobald das Raumschiff erreichbar ist
+        public List<Unit> Units { get { return map.Units; } }       //  Liste der (gescannten?) Units aus dem Directory der Klasse Map
+        public float ShipRadius { get { return ship.Radius; } }         //  Radius des Raumschiffes
+        public float ShipEnergyMax { get { return ship.EnergyMax; } }   //  Maximale Energie des Raumschiffes
+        public float ShipEnergyLive { get { return ship.Energy; } }       //  Aktuelle Energie des Raumschiffes
+        //Aktuelle Spieler im Universum ohne eigenen Spieler
+        public List<Player> PlayerInUniverse
+        {
+            get
+            {
+                List<Player> PlayerInUniverseWithoutOwnPlayer = universeGroup.Players.List;
 
-        //TODO: Daten der Spieler im Universum um später zu schreiben. 
-        //TODO: Universe Chat einbinden
+                PlayerInUniverseWithoutOwnPlayer.Remove(connector.Player);
+                return PlayerInUniverseWithoutOwnPlayer;
+            }
+        }
 
         //Abholen einer Nachricht
         public List<FlattiverseMessage> Messages
@@ -42,13 +50,13 @@ namespace FlyingLambV1
                 messageLock.ReleaseReaderLock();
                 return listCopy;
             }
-        }  
+        }
 
         //Nachrichten-Events Abfangen
         public delegate void FlattiverseChanged();
         public event FlattiverseChanged NewMessageEvent;
-        public event FlattiverseChanged NewScanEvent; 
-       
+        public event FlattiverseChanged NewScanEvent;
+
         List<FlattiverseMessage> messages = new List<FlattiverseMessage>();
         ReaderWriterLock messageLock = new ReaderWriterLock();
 
@@ -114,10 +122,10 @@ namespace FlyingLambV1
 
                 if (messagesReceived && NewMessageEvent != null)
                     NewMessageEvent();
-                
+
                 Scan();
                 Move();
-                
+
                 flowControl.Commit();
                 flowControl.Wait();
 
@@ -142,21 +150,21 @@ namespace FlyingLambV1
             foreach (Unit u in scannedUnits)
             {
                 Tag tag = new Tag(map.tick);
-                u.Tag = tag; 
+                u.Tag = tag;
             }
 
             map.RemoveOutdatedUnits();
             map.Insert(scannedUnits);
-            
+
             if (NewScanEvent != null)
             {
                 NewScanEvent();
             }
 
-            if (NewMessageEvent != null)
-            {
-                NewMessageEvent();
-            }
+            //if (NewMessageEvent != null)
+            //{
+            //    NewMessageEvent();
+            //}
         }
         //Antrieb
         public void Impulse(int x, int y)
@@ -184,19 +192,19 @@ namespace FlyingLambV1
                     direction = 135;
                 else
                     direction = 180; //Links pur
-             }
+            }
             else
             {
                 if (yImpulse > 0 && xImpulse == 0) // Oben Pur
                     direction = 270;
-                else if(yImpulse < 0 && xImpulse == 0) // Unten Pur
+                else if (yImpulse < 0 && xImpulse == 0) // Unten Pur
                 {
                     direction = 90;
                 }
-             }
+            }
             if (xImpulse != 0 || yImpulse != 0)
             {
-                Vector acceleration =   Vector.FromAngleLength(direction, ship.EngineAcceleration.Limit);
+                Vector acceleration = Vector.FromAngleLength(direction, ship.EngineAcceleration.Limit);
                 ship.Move(acceleration); //Beschleunigung des Schiffs im nächsten Schritt um den angegeben Vektor Wert.
             }
 
@@ -205,6 +213,22 @@ namespace FlyingLambV1
             xImpulse = 0;
             yImpulse = 0;
         }
+
+        //TODO: Universe Chat einbinden
+        public void UniverseChat(String message)
+        {
+            universeGroup.Chat(message);
+        }
+
+        //TODO: Player Chat einbinden
+        public void PlayerChat(Player player,String message)
+        {
+            player.Chat(message);
+        }
+
+        
+
+
 
         public void Disconnect()
         {
