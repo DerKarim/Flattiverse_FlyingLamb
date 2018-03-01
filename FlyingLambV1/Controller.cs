@@ -5,8 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Flattiverse;
 using System.Threading;
-
-
+using System.Drawing;
 
 
 namespace FlyingLambV1
@@ -222,6 +221,29 @@ namespace FlyingLambV1
             universeGroup.Players[player].Chat(message);
            
         }
+
+      //  //Imagehandler nimmt bild von URL falls gebraucht
+      //  public Image imageHandler(String imageName)
+      //  {
+      //      switch (imageName)
+      //      {
+      //          case "Space":
+      //              HttpWebRequest httpWebRequest = (HttpWebRequest)HttpWebRequest.Create("http://www2.hs-esslingen.de/~kabeit00/Daten/Flattiverse/images/spacebg.jpg");
+      //              HttpWebResponse httpWebReponse = (HttpWebResponse)httpWebRequest.GetResponse();
+      //              Stream stream = httpWebReponse.GetResponseStream();
+      //              return Image.FromStream(stream);
+      //              
+      //          default:
+      //              return null;
+      //              
+      //
+      //
+      //      }
+      //  }
+
+
+
+
 
         public void Disconnect()
         {

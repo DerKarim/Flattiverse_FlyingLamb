@@ -99,6 +99,10 @@ namespace FlyingLambV1
             //Raunschiff einzeichnen
             Graphics g = e.Graphics;
             g.DrawEllipse(Pens.White, centerX - shipRadius, centerY - shipRadius, shipRadius * 2, shipRadius * 2);
+            
+            //TODO: LERNEN WIE MAN ELLIPSE MIT FARBEN FÜLLEN KANN
+
+
 
             //Gescannte Objekte einzeichnen
             foreach (Unit u in units)
@@ -110,17 +114,22 @@ namespace FlyingLambV1
 
                 //Objekte beschriften
                 String uName = u.Name.ToString();
+                String uKind = u.Kind.ToString();
                 Font defaultFont = SystemFonts.DefaultFont;
 
                 SizeF size = g.MeasureString(uName, SystemFonts.DefaultFont);
                 SolidBrush brush = new SolidBrush(Color.White);
-                PointF point = new PointF(uX-uR, uY-uR);
+                PointF pointUname = new PointF(uX - uR, uY - uR);
+                PointF pointUkind = new PointF(uX - uR, (uY - uR)+40);
 
-                if(size.Width < uR*2)
+                if (size.Width < uR * 2) { 
                     g.DrawString(uName, defaultFont, brush, uX-size.Width/2,uY-size.Height/2);
-                else
-                    g.DrawString(uName, defaultFont, brush, point);
-
+                    g.DrawString(uKind, defaultFont, brush, pointUkind);
+                }
+                else { 
+                    g.DrawString(uName, defaultFont, brush, pointUname);
+                   
+                }
                 //Unterschiedliche Farben je nach UnitTyp 
                 switch (u.Kind)
                 {
@@ -138,6 +147,7 @@ namespace FlyingLambV1
                     case UnitKind.Planet:
                         {
                             g.DrawEllipse(Pens.DarkBlue, uX - uR, uY - uR, uR * 2, uR * 2);
+                            
                             break;
                         }
 
@@ -150,6 +160,19 @@ namespace FlyingLambV1
                     case UnitKind.PlayerShip:
                         {
                             g.DrawEllipse(Pens.Red, uX - uR, uY - uR, uR * 2, uR * 2);
+                            break;
+                        }
+
+                    case UnitKind.Buoy:
+                        { 
+                            g.DrawEllipse(Pens.Red, uX - uR, uY - uR, uR * 2, uR * 2);
+                            
+                           //foreach(Buoy buoy in (Buoy)units)
+                           //{
+                           //    
+                           //}
+
+
                             break;
                         }
                     //Alle anderen Units die nicht definiert worden sind.

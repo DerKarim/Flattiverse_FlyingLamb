@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(View));
             this.textBoxMessages = new System.Windows.Forms.RichTextBox();
             this.radarScreen = new System.Windows.Forms.Panel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
@@ -37,6 +38,8 @@
             this.button_send = new System.Windows.Forms.Button();
             this.label_liveEnergy = new System.Windows.Forms.Label();
             this.comboBox_playerlist = new System.Windows.Forms.ComboBox();
+            this.textBox_debug = new System.Windows.Forms.TextBox();
+            this.label_debugtitle = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,6 +65,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radarScreen.AutoSize = true;
             this.radarScreen.BackColor = System.Drawing.Color.Black;
+            this.radarScreen.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radarScreen.BackgroundImage")));
             this.radarScreen.Location = new System.Drawing.Point(12, 12);
             this.radarScreen.Name = "radarScreen";
             this.radarScreen.Size = new System.Drawing.Size(1051, 428);
@@ -124,11 +128,32 @@
             this.comboBox_playerlist.TabIndex = 6;
             this.comboBox_playerlist.Click += new System.EventHandler(this.comboBox_playerlist_Click);
             // 
+            // textBox_debug
+            // 
+            this.textBox_debug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_debug.Location = new System.Drawing.Point(1187, 41);
+            this.textBox_debug.Name = "textBox_debug";
+            this.textBox_debug.ReadOnly = true;
+            this.textBox_debug.Size = new System.Drawing.Size(210, 20);
+            this.textBox_debug.TabIndex = 7;
+            // 
+            // label_debugtitle
+            // 
+            this.label_debugtitle.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_debugtitle.AutoSize = true;
+            this.label_debugtitle.Location = new System.Drawing.Point(1124, 44);
+            this.label_debugtitle.Name = "label_debugtitle";
+            this.label_debugtitle.Size = new System.Drawing.Size(57, 13);
+            this.label_debugtitle.TabIndex = 8;
+            this.label_debugtitle.Text = "Debugger:";
+            // 
             // View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1409, 599);
+            this.Controls.Add(this.label_debugtitle);
+            this.Controls.Add(this.textBox_debug);
             this.Controls.Add(this.comboBox_playerlist);
             this.Controls.Add(this.label_liveEnergy);
             this.Controls.Add(this.button_send);
@@ -157,6 +182,8 @@
         private System.Windows.Forms.Button button_send;
         private System.Windows.Forms.Label label_liveEnergy;
         private System.Windows.Forms.ComboBox comboBox_playerlist;
+        private System.Windows.Forms.Label label_debugtitle;
+        private System.Windows.Forms.TextBox textBox_debug;
     }
 }
 
