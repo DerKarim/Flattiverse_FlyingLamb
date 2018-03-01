@@ -15,11 +15,16 @@ namespace FlyingLambV1
         Connector connector;
         UniverseGroup universeGroup;
         
+        
+
         Ship ship;
         Boolean running;
-        Map map = new Map();
+        private readonly Map map = new Map();
 
         int xImpulse, yImpulse, direction; //Antrieb
+        float scanAngle = 0;    //Scan soll bei 0 anfangen
+        public float drawX { get; set; }
+        public float drawY { get; set; }
 
         /*/////  P R O P E R T Y S  /////*/
         public Boolean ShipReady { get { return (ship != null); } }     //  True sobald das Raumschiff erreichbar ist
@@ -28,7 +33,53 @@ namespace FlyingLambV1
         public float ShipEnergyMax { get { return ship.EnergyMax; } }   //  Maximale Energie des Raumschiffes
         public float ShipEnergyLive { get { return ship.Energy; } }       //  Aktuelle Energie des Raumschiffes
         public UniverseGroup univerGroupType { get { return universeGroup; } }
-       
+        public int ShotsAvailable { get { return (int)ship.WeaponProductionStatus; } } //Verfügbare Schüsse des Schiffs
+        public Vector VecDir
+        {
+            get
+            {
+
+
+
+                Vector direction = Vector.FromXY(drawX, drawY);
+                
+                float maxTime = ship.WeaponShot.Time.Limit; // maximale Laufzeit eines Schusses
+                float maxSpeed = ship.WeaponShot.Speed.Limit; // maximale Geschwindigkeit eines Schusses
+
+                float shootLimit = maxTime * maxSpeed;
+
+                float needTime = direction.Length / maxSpeed;
+                direction.Length = maxSpeed;
+
+                return direction;
+
+
+            }
+        }
+
+        public float ShootLimit
+        {
+            get
+            {
+
+
+
+               
+
+                float maxTime = ship.WeaponShot.Time.Limit; // maximale Laufzeit eines Schusses
+                float maxSpeed = ship.WeaponShot.Speed.Limit; // maximale Geschwindigkeit eines Schusses
+
+                float shootLimit = maxTime * maxSpeed;
+
+               
+
+                return shootLimit;
+
+
+            }
+        }
+
+
         //Aktuelle Spieler im Universum ohne eigenen Spieler
         public List<Player> PlayerInUniverse
         {
@@ -141,7 +192,7 @@ namespace FlyingLambV1
         public void Scan()
         {
             /*Angles: http://www2.hs-esslingen.de/~melcher/flattiverse/images/angles.svg*/
-            float scanAngle = 0;    //Scan soll bei 0 anfangen
+            
             scanAngle += ship.ScannerDegreePerScan; //Addiert den möglichen Scanbereich hinzu um den gesamten kreis abzudecken 
 
             List<Unit> scannedUnits = ship.Scan(scanAngle, ship.ScannerArea.Limit); 
@@ -240,6 +291,28 @@ namespace FlyingLambV1
       //
       //      }
       //  }
+
+        //Shot 
+        public void ShootAt(float x, float y)
+        {
+            Vector direction = Vector.FromXY(x, y);
+
+            float maxTime = ship.WeaponShot.Time.Limit; // maximale Laufzeit eines Schusses
+            float maxSpeed = ship.WeaponShot.Speed.Limit; // maximale Geschwindigkeit eines Schusses
+
+            float shootLimit = maxTime * maxSpeed;
+
+
+            float needTime = direction.Length / maxSpeed;
+            direction.Length = maxSpeed;
+
+            ship.Shoot(direction, (int)needTime);
+
+        }
+
+        
+
+        
 
 
 

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(View));
             this.textBoxMessages = new System.Windows.Forms.RichTextBox();
             this.radarScreen = new System.Windows.Forms.Panel();
             this.progressBar = new System.Windows.Forms.ProgressBar();
@@ -40,6 +39,8 @@
             this.comboBox_playerlist = new System.Windows.Forms.ComboBox();
             this.textBox_debug = new System.Windows.Forms.TextBox();
             this.label_debugtitle = new System.Windows.Forms.Label();
+            this.textBox_shots = new System.Windows.Forms.TextBox();
+            this.label_textshots = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -65,12 +66,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.radarScreen.AutoSize = true;
             this.radarScreen.BackColor = System.Drawing.Color.Black;
-            this.radarScreen.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("radarScreen.BackgroundImage")));
             this.radarScreen.Location = new System.Drawing.Point(12, 12);
             this.radarScreen.Name = "radarScreen";
             this.radarScreen.Size = new System.Drawing.Size(1051, 428);
             this.radarScreen.TabIndex = 1;
             this.radarScreen.Click += new System.EventHandler(this.radarScreen_Click);
+            this.radarScreen.MouseClick += new System.Windows.Forms.MouseEventHandler(this.RadarScreenClickHandler);
+            this.radarScreen.MouseMove += new System.Windows.Forms.MouseEventHandler(this.radarScreen_MouseMove);
             // 
             // progressBar
             // 
@@ -132,9 +134,10 @@
             // 
             this.textBox_debug.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.textBox_debug.Location = new System.Drawing.Point(1187, 41);
+            this.textBox_debug.Multiline = true;
             this.textBox_debug.Name = "textBox_debug";
             this.textBox_debug.ReadOnly = true;
-            this.textBox_debug.Size = new System.Drawing.Size(210, 20);
+            this.textBox_debug.Size = new System.Drawing.Size(210, 52);
             this.textBox_debug.TabIndex = 7;
             // 
             // label_debugtitle
@@ -147,11 +150,32 @@
             this.label_debugtitle.TabIndex = 8;
             this.label_debugtitle.Text = "Debugger:";
             // 
+            // textBox_shots
+            // 
+            this.textBox_shots.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.textBox_shots.Location = new System.Drawing.Point(1175, 408);
+            this.textBox_shots.Name = "textBox_shots";
+            this.textBox_shots.Size = new System.Drawing.Size(41, 20);
+            this.textBox_shots.TabIndex = 9;
+            this.textBox_shots.Text = "[Shots]";
+            // 
+            // label_textshots
+            // 
+            this.label_textshots.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label_textshots.AutoSize = true;
+            this.label_textshots.Location = new System.Drawing.Point(1066, 411);
+            this.label_textshots.Name = "label_textshots";
+            this.label_textshots.Size = new System.Drawing.Size(106, 13);
+            this.label_textshots.TabIndex = 10;
+            this.label_textshots.Text = "Verfügbare Schüsse:";
+            // 
             // View
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1409, 599);
+            this.Controls.Add(this.label_textshots);
+            this.Controls.Add(this.textBox_shots);
             this.Controls.Add(this.label_debugtitle);
             this.Controls.Add(this.textBox_debug);
             this.Controls.Add(this.comboBox_playerlist);
@@ -184,6 +208,8 @@
         private System.Windows.Forms.ComboBox comboBox_playerlist;
         private System.Windows.Forms.Label label_debugtitle;
         private System.Windows.Forms.TextBox textBox_debug;
+        private System.Windows.Forms.Label label_textshots;
+        private System.Windows.Forms.TextBox textBox_shots;
     }
 }
 

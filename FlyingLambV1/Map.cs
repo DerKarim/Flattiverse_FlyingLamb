@@ -51,8 +51,10 @@ namespace FlyingLambV1
                     toDelete.Add(name);
             }
 
-            foreach (string n in toDelete)
+            foreach (string n in toDelete) {
+
                 mapUnits.Remove(n);
+            }
         }
     }
 }

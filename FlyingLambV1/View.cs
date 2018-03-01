@@ -16,7 +16,12 @@ namespace FlyingLambV1
         Controller controller;
         List<Corona> coronas = new List<Corona>(); //[K]
         List<Unit> units = new List<Unit>();
-      
+
+
+        float drawX,drawY;
+        
+
+
 
         //Konstruktor
         public View(Controller controller)
@@ -25,7 +30,7 @@ namespace FlyingLambV1
             InitializeComponent();
             radarScreen.Resize += RadarScreenResizedHandler;
             Shown += View_Shown;
-
+            
         }
 
         private void View_Shown(object sender, EventArgs e)
@@ -37,6 +42,7 @@ namespace FlyingLambV1
             radarScreen.Focus(); //Stellt den Focus am anfang
             //Funktionen die direkt am Anfang starten sollen
             radarScreen.Paint += RadarScreenPaintEventHandler;
+            
            
             controller.NewScanEvent += NewScan;
         }
@@ -88,7 +94,7 @@ namespace FlyingLambV1
             int radarScreenMinDimension = Math.Min(radarScreen.Width, radarScreen.Height);
             // Make screen at least 2000x2000 flattiverse miles with Ship at center
             // i.e. minimum screenPixels corresponds to 2000 flattiverse miles
-            float displayFactor = radarScreenMinDimension / 2000f;
+            float displayFactor = radarScreenMinDimension / 1000f;
 
             //Mittelpunkt radarScreen
             float centerX = radarScreen.Width / 2;
@@ -99,14 +105,16 @@ namespace FlyingLambV1
             //Raunschiff einzeichnen
             Graphics g = e.Graphics;
             g.DrawEllipse(Pens.White, centerX - shipRadius, centerY - shipRadius, shipRadius * 2, shipRadius * 2);
-            
+
             //TODO: LERNEN WIE MAN ELLIPSE MIT FARBEN FÜLLEN KANN
 
 
-
+            Console.WriteLine(units.Count);
             //Gescannte Objekte einzeichnen
             foreach (Unit u in units)
             {
+
+
                 //Position des Units bestimmen
                 float uX = centerX + u.Position.X * displayFactor;
                 float uY = centerY + u.Position.Y * displayFactor;
@@ -115,19 +123,20 @@ namespace FlyingLambV1
                 //Objekte beschriften
                 String uName = u.Name.ToString();
                 String uKind = u.Kind.ToString();
+                
                 Font defaultFont = SystemFonts.DefaultFont;
 
                 SizeF size = g.MeasureString(uName, SystemFonts.DefaultFont);
-                SolidBrush brush = new SolidBrush(Color.White);
                 PointF pointUname = new PointF(uX - uR, uY - uR);
                 PointF pointUkind = new PointF(uX - uR, (uY - uR)+40);
+                PointF pointUmissiontargetSeq = new PointF(uX - uR, (uY - uR) + 60);
 
                 if (size.Width < uR * 2) { 
-                    g.DrawString(uName, defaultFont, brush, uX-size.Width/2,uY-size.Height/2);
-                    g.DrawString(uKind, defaultFont, brush, pointUkind);
+                    g.DrawString(uName, defaultFont, Brushes.White, uX-size.Width/2,uY-size.Height/2);
+                    g.DrawString(uKind, defaultFont, Brushes.White, pointUkind);
                 }
                 else { 
-                    g.DrawString(uName, defaultFont, brush, pointUname);
+                    g.DrawString(uName, defaultFont, Brushes.White, pointUname);
                    
                 }
                 //Unterschiedliche Farben je nach UnitTyp 
@@ -166,15 +175,23 @@ namespace FlyingLambV1
                     case UnitKind.Buoy:
                         { 
                             g.DrawEllipse(Pens.Red, uX - uR, uY - uR, uR * 2, uR * 2);
-                            
-                           //foreach(Buoy buoy in (Buoy)units)
-                           //{
-                           //    
-                           //}
+
+
+                           textBox_debug.Clear();
+                           textBox_debug.Text = "Message der Boye:" + ((Buoy)u).Message; 
+                           
 
 
                             break;
                         }
+
+                    case UnitKind.MissionTarget:
+                        {
+                            String uMissiontargetSeq = ((MissionTarget)u).SequenceNumber.ToString();
+                            g.DrawString(uMissiontargetSeq, defaultFont, Brushes.White, pointUmissiontargetSeq);
+                            break;
+                        }
+
                     //Alle anderen Units die nicht definiert worden sind.
                     default:
                         {
@@ -188,11 +205,17 @@ namespace FlyingLambV1
             progressBar.Minimum = 0;
             progressBar.Maximum = (int)controller.ShipEnergyMax;
             progressBar.Value = (int)controller.ShipEnergyLive;
-
+          
             //ProgressBar Textanzeige
             label_liveEnergy.Text = String.Format("Energy: {0}/{1}", controller.ShipEnergyLive.ToString(), controller.ShipEnergyMax.ToString());
 
+            //Verfügbare Schüsse
+            textBox_shots.Text = controller.ShotsAvailable.ToString();
 
+            //Linie Zeichen //TOFIX: LINIE MUSS GEFIXT WERDEN 
+         //   controller.VecDir.Length = controller.ShootLimit;
+         //   g.DrawLine(Pens.White, centerX,centerY,  controller.VecDir.X,controller.VecDir.Y);
+            
         }
         //Radarschirm mitteilen, dass er sich neu zeichnen soll.
         private void RadarScreenResizedHandler(object sender, EventArgs e)
@@ -230,6 +253,19 @@ namespace FlyingLambV1
                     break;
             }
         }
+
+      //  //TODO: EnergieAnzeige seperat im code integrieren
+      //  public void energyProgressbar()
+      //  {
+      //      //ProgressBar
+      //      progressBar.Minimum = 0;
+      //      progressBar.Maximum = (int)controller.ShipEnergyMax;
+      //      progressBar.Value = (int)controller.ShipEnergyLive;
+      //
+      //      //ProgressBar Textanzeige
+      //      label_liveEnergy.Text = String.Format("Energy: {0}/{1}", controller.ShipEnergyLive.ToString(), controller.ShipEnergyMax.ToString());
+      //  }
+
 
         //Text absenden (chat)
         private void button_send_Click(object sender, EventArgs e)
@@ -292,10 +328,64 @@ namespace FlyingLambV1
             }
         }
 
+        //ClickHandler fürs Schießen
+        private void RadarScreenClickHandler(object sender, MouseEventArgs e)
+        {
+            float centerX = radarScreen.Width / 2;
+            float centerY = radarScreen.Height / 2;
+
+            int radarScreenMinDimension = Math.Min(radarScreen.Width, radarScreen.Height);
+            float displayFactor = radarScreenMinDimension / 1000f;
+            
+            float x = (e.X - centerX) /2;
+            float y = (e.Y - centerY) /2;
+
+            
+           
+
+
+            if (controller.ShotsAvailable >= 1)
+            controller.ShootAt(x, y);
+
+            textBox_debug.Clear();
+            textBox_debug.Text = "x: " + (x).ToString() + " , " + "y: " + (y).ToString();
+
+
+
+        }
+
+       
+       
+
+
+
+
+
         //Wenn die View geschlossen wird
         private void FormClosingEventHandler(object sender, FormClosingEventArgs e)
         {
             controller.Disconnect();
+        }
+
+      
+
+        private void radarScreen_MouseMove(object sender, MouseEventArgs e)
+        {
+            float centerX = radarScreen.Width / 2;
+            float centerY = radarScreen.Height / 2;
+
+            int radarScreenMinDimension = Math.Min(radarScreen.Width, radarScreen.Height);
+            float displayFactor = radarScreenMinDimension / 1000f;
+
+            float x = (e.X - centerX) / displayFactor;
+            float y = (e.Y - centerY) / displayFactor;
+
+            drawX = e.X;
+            drawY = e.Y;
+
+            controller.drawX = e.X;
+            controller.drawY = e.Y;
+
         }
     }
 }
