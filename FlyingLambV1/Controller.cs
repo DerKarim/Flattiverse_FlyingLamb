@@ -195,7 +195,9 @@ namespace FlyingLambV1
             
             scanAngle += ship.ScannerDegreePerScan; //Addiert den möglichen Scanbereich hinzu um den gesamten kreis abzudecken 
 
-            List<Unit> scannedUnits = ship.Scan(scanAngle, ship.ScannerArea.Limit); 
+            //TODO: SOll nur Scannen wenn noch genug energie da ist
+            List<Unit> scannedUnits = ship.Scan(scanAngle, ship.ScannerArea.Limit);
+
             map.tick++;
 
             foreach (Unit u in scannedUnits)
@@ -299,24 +301,13 @@ namespace FlyingLambV1
 
             float maxTime = ship.WeaponShot.Time.Limit; // maximale Laufzeit eines Schusses
             float maxSpeed = ship.WeaponShot.Speed.Limit; // maximale Geschwindigkeit eines Schusses
-
             float shootLimit = maxTime * maxSpeed;
-
-
             float needTime = direction.Length / maxSpeed;
             direction.Length = maxSpeed;
 
             ship.Shoot(direction, (int)needTime);
 
         }
-
-        
-
-        
-
-
-
-
 
         public void Disconnect()
         {
