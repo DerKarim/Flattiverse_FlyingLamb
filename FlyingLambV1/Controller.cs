@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Flattiverse;
 using System.Threading;
 using System.Drawing;
-
+using System.IO;
 
 namespace FlyingLambV1
 {
@@ -27,6 +27,7 @@ namespace FlyingLambV1
         public float drawY { get; set; }
 
         /*/////  P R O P E R T Y S  /////*/
+        public Ship MyShip { get { return ship; }  }
         public Boolean ShipReady { get { return (ship != null); } }     //  True sobald das Raumschiff erreichbar ist
         public List<Unit> Units { get { return map.Units; } }       //  Liste der (gescannten?) Units aus dem Directory der Klasse Map
         public float ShipRadius { get { return ship.Radius; } }         //  Radius des Raumschiffes
@@ -38,9 +39,6 @@ namespace FlyingLambV1
         {
             get
             {
-
-
-
                 Vector direction = Vector.FromXY(drawX, drawY);
                 
                 float maxTime = ship.WeaponShot.Time.Limit; // maximale Laufzeit eines Schusses
@@ -52,8 +50,6 @@ namespace FlyingLambV1
                 direction.Length = maxSpeed;
 
                 return direction;
-
-
             }
         }
 
@@ -61,21 +57,11 @@ namespace FlyingLambV1
         {
             get
             {
-
-
-
-               
-
                 float maxTime = ship.WeaponShot.Time.Limit; // maximale Laufzeit eines Schusses
                 float maxSpeed = ship.WeaponShot.Speed.Limit; // maximale Geschwindigkeit eines Schusses
-
                 float shootLimit = maxTime * maxSpeed;
 
-               
-
                 return shootLimit;
-
-
             }
         }
 
@@ -98,8 +84,7 @@ namespace FlyingLambV1
             get
             {
                 messageLock.AcquireReaderLock(100);
-                List<FlattiverseMessage> listCopy
-                    = new List<FlattiverseMessage>(messages);
+                List<FlattiverseMessage> listCopy = new List<FlattiverseMessage>(messages);
                 messageLock.ReleaseReaderLock();
                 return listCopy;
             }
@@ -115,6 +100,18 @@ namespace FlyingLambV1
 
         public void Connect()
         {
+            //BenchMark für das Betreten gewisser Universen
+            var binPath = Environment.CurrentDirectory + @"\benchmark3.bin";
+            try
+            {
+                Flattiverse.Connector.LoadBenchmark(System.IO.File.ReadAllBytes(binPath));
+            }
+            catch (Exception e)
+            {
+                Flattiverse.Connector.DoBenchmark();
+                System.IO.File.WriteAllBytes(binPath, Flattiverse.Connector.SaveBenchmark());
+            }
+
             connector = new Connector("kabeit00@hs-esslingen.de", "Karim1996");
         }
 
@@ -141,8 +138,24 @@ namespace FlyingLambV1
         //Universum Beitreten
         public void Enter(string universeGroupName, string teamName)
         {
+
+
             universeGroup = connector.UniverseGroups[universeGroupName];
             Team team = universeGroup.Teams[teamName];
+
+            //Um einem team zu betreten 
+
+            
+            // if (!File.Exists("benchmark123.bin"))
+            // {
+            //     PerformanceMark newBenchmark = Connector.DoBenchmark();
+            //     File.WriteAllBytes("benchmark123.bin", Connector.SaveBenchmark());
+            // }
+            // else
+            // {
+            //     Connector.LoadBenchmark(File.ReadAllBytes("benchmark.bin"));
+            // }
+            
 
             universeGroup.Join("Karim", team);
 
@@ -176,6 +189,11 @@ namespace FlyingLambV1
                 if (messagesReceived && NewMessageEvent != null)
                     NewMessageEvent();
 
+                if (ShipEnergyLive < 400)
+                {
+                    ship.Kill();
+                }
+
                 Scan();
                 Move();
 
@@ -196,6 +214,7 @@ namespace FlyingLambV1
             scanAngle += ship.ScannerDegreePerScan; //Addiert den möglichen Scanbereich hinzu um den gesamten kreis abzudecken 
 
             //TODO: SOll nur Scannen wenn noch genug energie da ist
+           
             List<Unit> scannedUnits = ship.Scan(scanAngle, ship.ScannerArea.Limit);
 
             map.tick++;
@@ -272,7 +291,6 @@ namespace FlyingLambV1
         public void PlayerChat(String player,String message)
         {
             universeGroup.Players[player].Chat(message);
-           
         }
 
       //  //Imagehandler nimmt bild von URL falls gebraucht

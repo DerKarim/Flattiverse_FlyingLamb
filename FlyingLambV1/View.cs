@@ -17,9 +17,37 @@ namespace FlyingLambV1
         List<Corona> coronas = new List<Corona>(); //[K]
         List<Unit> units = new List<Unit>();
 
-
         float drawX,drawY;
-        
+        //   int radarScreenMinDimension = Math.Min(radarScreen.Width, radarScreen.Height);
+        //   float displayFactor = radarScreenMinDimension / 1000f;
+
+        public int radarScreenMinDimension
+        {
+            get
+            {
+                radarScreenMinDimension = Math.Min(radarScreen.Width, radarScreen.Height);
+                return radarScreenMinDimension;
+            }
+            set
+            {
+                radarScreenMinDimension = value;
+            }
+            
+        }
+
+        public float displayFactor
+        {
+            get
+            {
+                displayFactor = radarScreenMinDimension / 1000f;
+                return displayFactor;
+            }
+            set
+            {
+
+            }
+        }
+
 
 
 
@@ -30,20 +58,17 @@ namespace FlyingLambV1
             InitializeComponent();
             radarScreen.Resize += RadarScreenResizedHandler;
             Shown += View_Shown;
-            
         }
 
         private void View_Shown(object sender, EventArgs e)
         {
             controller.Connect();
             //controller.ListUniverses();
-            controller.Enter("Time Master", "None");
+            controller.Enter("DOM II", "Communication Magenta");
             controller.NewMessageEvent += NewMessage;
             radarScreen.Focus(); //Stellt den Focus am anfang
             //Funktionen die direkt am Anfang starten sollen
             radarScreen.Paint += RadarScreenPaintEventHandler;
-            
-           
             controller.NewScanEvent += NewScan;
         }
 
@@ -72,7 +97,6 @@ namespace FlyingLambV1
                 List<FlattiverseMessage> messages = controller.Messages;
                 List<string> lines = new List<string>();
 
-
                 foreach (FlattiverseMessage message in messages) {
                     lines.Add(message.ToString());
                 }
@@ -80,8 +104,6 @@ namespace FlyingLambV1
                 textBoxMessages.SelectionStart = textBoxMessages.Text.Length;
                 textBoxMessages.ScrollToCaret();
             }
-
-
         }
 
         //Paint Ereignisse 
@@ -104,7 +126,12 @@ namespace FlyingLambV1
 
             //Raunschiff einzeichnen
             Graphics g = e.Graphics;
-            g.DrawEllipse(Pens.White, centerX - shipRadius, centerY - shipRadius, shipRadius * 2, shipRadius * 2);
+            g.DrawEllipse(Pens.White, centerX - shipRadius, centerY - shipRadius, shipRadius * 2, shipRadius * 2); //Schiff
+
+            Pen nicerStift = new Pen(Brushes.WhiteSmoke);
+            nicerStift.DashPattern = new float[] { 8F, 8F };
+
+            g.DrawEllipse(nicerStift, centerX - controller.ShootLimit, centerY - controller.ShootLimit ,  controller.ShootLimit*2,  controller.ShootLimit*2); //ShootLimit Radius
 
             //TODO: LERNEN WIE MAN ELLIPSE MIT FARBEN FÜLLEN KANN
 
@@ -113,8 +140,6 @@ namespace FlyingLambV1
             //Gescannte Objekte einzeichnen
             foreach (Unit u in units)
             {
-
-
                 //Position des Units bestimmen
                 float uX = centerX + u.Position.X * displayFactor;
                 float uY = centerY + u.Position.Y * displayFactor;
@@ -137,7 +162,6 @@ namespace FlyingLambV1
                 }
                 else { 
                     g.DrawString(uName, defaultFont, Brushes.White, pointUname);
-                   
                 }
                 //Unterschiedliche Farben je nach UnitTyp 
                 switch (u.Kind)
@@ -168,7 +192,40 @@ namespace FlyingLambV1
 
                     case UnitKind.PlayerShip:
                         {
-                            g.DrawEllipse(Pens.Red, uX - uR, uY - uR, uR * 2, uR * 2);
+
+                            switch (u.Team.Name)
+                            {
+                                //DOM I
+                                case "Orange":
+                                    g.DrawEllipse(Pens.DarkOrange, uX - uR, uY - uR, uR * 2, uR * 2);
+                                    break;
+                                case "Blue":
+                                    g.DrawEllipse(Pens.DarkBlue, uX - uR, uY - uR, uR * 2, uR * 2);
+                                    break;
+
+                                //DOM II
+                                case "Communication Magenta":
+                                    g.DrawEllipse(Pens.DarkMagenta, uX - uR, uY - uR, uR * 2, uR * 2);
+                                    break;
+                                case "Poisonous Green":
+                                    g.DrawEllipse(Pens.DarkGreen, uX - uR, uY - uR, uR * 2, uR * 2);
+                                    break;
+                                case "Signalling Orange":
+                                    g.DrawEllipse(Pens.DarkOrange, uX - uR, uY - uR, uR * 2, uR * 2);
+                                    break;
+
+                                //STF I
+                                //case "Green":
+                                    
+
+
+                                default:
+                                    g.DrawEllipse(Pens.Red, uX - uR, uY - uR, uR * 2, uR * 2);
+                                    break;
+                            }
+
+
+                            
                             break;
                         }
 
@@ -187,7 +244,17 @@ namespace FlyingLambV1
 
                     case UnitKind.MissionTarget:
                         {
+                                 MissionTarget tar = ((MissionTarget)u);
+                           
+                                Pen nicerStift2 = new Pen(Brushes.GreenYellow);
+                                nicerStift2.DashPattern = new float[] { 3F, 3F };
+
+                                g.DrawEllipse(nicerStift2, uX - uR, uY - uR, tar.DominationRadius * 2, tar.DominationRadius * 2);
+                            
+
                             String uMissiontargetSeq = ((MissionTarget)u).SequenceNumber.ToString();
+                           
+
                             g.DrawString(uMissiontargetSeq, defaultFont, Brushes.White, pointUmissiontargetSeq);
                             break;
                         }
@@ -213,8 +280,12 @@ namespace FlyingLambV1
             textBox_shots.Text = controller.ShotsAvailable.ToString();
 
             //Linie Zeichen //TOFIX: LINIE MUSS GEFIXT WERDEN 
-         //   controller.VecDir.Length = controller.ShootLimit;
-         //   g.DrawLine(Pens.White, centerX,centerY,  controller.VecDir.X,controller.VecDir.Y);
+            //   controller.VecDir.Length = controller.ShootLimit;
+          //  Vector vt = Vector.FromXY(drawX,drawY);
+          //  Vector vt2 = new Vector(drawX,drawY);
+          //  vt2.Length = controller.ShootLimit;
+          //  vt.Length = controller.ShootLimit;
+          //  g.DrawLine(Pens.White, centerX,centerY,  vt2.X, vt2.Y);
             
         }
         //Radarschirm mitteilen, dass er sich neu zeichnen soll.
@@ -250,6 +321,9 @@ namespace FlyingLambV1
                     break;
                 case Keys.Escape:
                     controller.Disconnect();
+                    break;
+                case Keys.K:
+                    controller.MyShip.Kill();
                     break;
             }
         }
@@ -340,21 +414,20 @@ namespace FlyingLambV1
             float x = (e.X - centerX) /2;
             float y = (e.Y - centerY) /2;
 
-            
-           
-
-
             if (controller.ShotsAvailable >= 1)
             controller.ShootAt(x, y);
 
             textBox_debug.Clear();
             textBox_debug.Text = "x: " + (x).ToString() + " , " + "y: " + (y).ToString();
 
-
-
         }
 
-       
+       //Rein und Raus zoomen
+       private void MouseWheelHandler (object sender, MouseEventArgs e)
+        {
+            int Delta = e.Delta;
+            
+        }
        
 
 
@@ -377,11 +450,11 @@ namespace FlyingLambV1
             int radarScreenMinDimension = Math.Min(radarScreen.Width, radarScreen.Height);
             float displayFactor = radarScreenMinDimension / 1000f;
 
-            float x = (e.X - centerX) / displayFactor;
-            float y = (e.Y - centerY) / displayFactor;
+            float x = (e.X - centerX) / 2;
+            float y = (e.Y - centerY) / 2;
 
-            drawX = e.X;
-            drawY = e.Y;
+            drawX = x ;
+            drawY = y;
 
             controller.drawX = e.X;
             controller.drawY = e.Y;
